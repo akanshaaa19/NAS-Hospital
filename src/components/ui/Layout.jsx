@@ -1,6 +1,6 @@
 export const Layout = ({ children }) => {
     return <section>
-        <nav className="bg-white px-20 py-4">
+        <nav className="bg-light px-20 py-4">
             <div className=" mx-auto  flex justify-between items-center">
                 <ul className="flex space-x-4 font-semibold">
                     <li><a href="#" className="text-black hover:underline hover:text-[#786281]">Home</a></li>
@@ -13,7 +13,7 @@ export const Layout = ({ children }) => {
                 </ul>
             </div>
         </nav>
-        <section className=" relative hero  text-black flex  h-6/12 px-20  ">
+        <section className=" relative hero  text-black bg-light  h-screen flex flex-col px-20  ">
             {children}
         </section>
     </section>
