@@ -13,7 +13,7 @@ export const Layout = ({ children }) => {
                 </ul>
             </div>
         </nav>
-        <section className=" relative hero  text-black bg-light  h-screen flex flex-col px-20  ">
+        <section className=" relative hero  text-black bg-light  min-h-screen flex flex-col px-20 gap-3 ">
             {children}
         </section>
     </section>
