@@ -1,3 +1,4 @@
+import Footer from "./Footer"
 export const Layout = ({ children }) => {
     return <section>
         <nav className="bg-light px-20 py-4">
@@ -13,8 +14,13 @@ export const Layout = ({ children }) => {
                 </ul>
             </div>
         </nav>
-        <section className=" relative hero  text-black bg-light  h-screen flex flex-col px-20  ">
+        <section className=" relative hero  text-black bg-light  h-screen flex flex-col px-20 justify-center items-center ">
             {children}
+           
+           
+           
         </section>
+        <Footer/>
+        
     </section>
 }
