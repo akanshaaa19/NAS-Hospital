@@ -1,129 +1,177 @@
 import React, { useState } from 'react';
+import { Button, message, Steps, theme } from 'antd';
 import { Layout } from '../components/ui/Layout';
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+const steps = [
+  {
+    title: 'Basic Information',
+    content: 'First-content',
+    
+  },
+  {
+    title: 'Medical License',
+    content: 'Second-content',
+  },
+  {
+    title: 'Self Declaration',
+    content: 'Last-content',
+  },
+];
+const Doctorform= () => {
+  const [name,setName]=useState("")
+   const [email,setemail]=useState("")
+   const [des,setdes]=useState("")
 
-const Doctorform = () => {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    address: '',
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const { token } = theme.useToken();
+  const [current, setCurrent] = useState(0);
+  const next = () => {
+    setCurrent(current + 1);
   };
-
-  const nextStep = () => {
-    setStep(step + 1);
+  const prev = () => {
+    setCurrent(current - 1);
   };
-
-  const prevStep = () => {
-    setStep(step - 1);
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+  }));
+  const contentStyle = {
+    lineHeight: '260px',
+    textAlign: 'center',
+    color: token.colorTextTertiary,
+    backgroundColor: token.colorFillAlter,
+    borderRadius: token.borderRadiusLG,
+    border: `1px dashed ${token.colorBorder}`,
+    marginTop: 16,
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here, e.g., send data to the server
-    console.log(formData);
-  };
-
   return (
+    <>
     <Layout>
-    <div className="min-h-screen flex items-center ">
-      <div className="shadow-md rounded-lg p-8 w-6/12 h-6/12 bg-white">
-        <form onSubmit={handleSubmit}>
-          {step === 1 && (
-            <div>
-              <h1 className="text-2xl font-semibold mb-4 text-center">Personal Information</h1>
-              <div className="mb-4">
-                <label className="block text-gray-600 font-semibold">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border-gray-300 border focus:ring focus:ring-indigo-200 px-3 py-2"
-                  placeholder="John Doe"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-600 font-semibold">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border-gray-300 border focus:ring focus:ring-indigo-200 px-3 py-2"
-                  placeholder="John Doe"
-                />
-              </div>
-              <button type="button" onClick={nextStep} className="bg-indigo-500 hover:bg-indigo-600 text-black font-semibold py-2 px-4 rounded-full">
-                Next
-              </button>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div>
-              <h1 className="text-2xl font-semibold mb-4">Step 2: Contact Information</h1>
-              <div className="mb-4">
-                <label className="block text-gray-600 font-semibold">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border-gray-300 border focus:ring focus:ring-indigo-200 px-3 py-2"
-                  placeholder="john@example.com"
-                />
-              </div>
-              <div className="flex justify-between">
-                <button type="button" onClick={prevStep} className="bg-gray-400 hover:bg-gray-500 text-black font-semibold py-2 px-4 rounded-full">
-                  Previous
-                </button>
-                <button type="button" onClick={nextStep} className="bg-indigo-500 hover:bg-indigo-600 text-black font-semibold py-2 px-4 rounded-full">
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div>
-              <h1 className="text-2xl font-semibold mb-4">Step 3: Additional Information</h1>
-              <div className="mb-4">
-                <label className="block text-gray-600 font-semibold">Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  className="w-full rounded-lg border-gray-300 border focus:ring focus:ring-indigo-200 px-3 py-2"
-                  placeholder="123 Main St"
-                />
-              </div>
-              <div className="flex justify-between">
-                <button type="button" onClick={prevStep} className="bg-gray-400 hover:bg-gray-500 text-black font-semibold py-2 px-4 rounded-full">
-                  Previous
-                </button>
-                <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-black font-semibold py-2 px-4 rounded-full">
-                  Submit
-                </button>
-              </div>
-            </div>
-          )}
-        </form>
+      <div className='block'>
+      <p className='text-3xl font-semibold  '>Doctor Login </p>
       </div>
-      <div className='banner' >
-       <img src="https://drtop.in/public/carausel3_1.webp" className='h-full'/>
+      
+      <div className='shadow-lg p-3 rounded-xl   w-full'>
+      <Steps current={current} items={items} className='mb-3 '/>
+      <div className=''>
+         {current==0 &&(
+           <form className='flex-wrap' >
+           <div class="mb-4">
+               <label for="full_name" class="block text-gray-600 font-medium">Full Name</label>
+               <input type="text" value={name} id="full_name" name="full_name" placeholder="John Doe"  onChange={(e)=>setName(e.target.value)} class="w-6/12 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+           </div>
+           <div class="mb-4">
+               <label for="suffix" class="block text-gray-600 font-medium">Doctor's Suffix or Titles</label>
+               <input type="text" id="suffix" name="suffix" placeholder="MD, PhD" class="w-6/12border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"/>
+           </div>
+           <div class="mb-4">
+               <label for="email" class="block text-gray-600 font-medium">Email</label>
+               <input type="email" id="email" name="email" placeholder="john@example.com" class="w-6/12 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+           </div>
+           <div class="mb-4">
+               <label for="phone" class="block text-gray-600 font-medium">Phone Number</label>
+               <input type="tel" id="phone" name="phone" placeholder="123-456-7890" class="w-6/12border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+           </div>
+           <div class="mt-6">
+               <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
+           </div>
+       </form>
+         )}
+          {current==1 &&(
+   <form className='flex-wrap' >
+   <div class="mb-4">
+       <label for="full_name" class="block text-gray-600 font-medium">Full Name</label>
+       <input type="text" id="full_name" name="full_name" placeholder="John Doe" class="w-6/12 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+   </div>
+   <div class="mb-4">
+       <label for="suffix" class="block text-gray-600 font-medium">Doctor's Suffix or Titles</label>
+       <input type="text" id="suffix" name="suffix" placeholder="MD, PhD" class="w-6/12border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"/>
+   </div>
+   <div class="mb-4">
+       <label for="email" class="block text-gray-600 font-medium">Email</label>
+       <input type="email" id="email" name="email" placeholder="john@example.com" class="w-6/12 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+   </div>
+   <div class="mb-4">
+       <label for="phone" class="block text-gray-600 font-medium">Phone Number</label>
+       <input type="tel" id="phone" name="phone" placeholder="123-456-7890" class="w-6/12border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+   </div>
+   <div class="mt-6">
+       <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
+   </div>
+</form>
+         )}
+         {current==2 &&(
+             <form className='flex-wrap' >
+             <div class="mb-4">
+                 <label for="full_name" class="block text-gray-600 font-medium">Full Name</label>
+                 <input type="text" id="full_name" name="full_name" placeholder="John Doe" class="w-6/12 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+             </div>
+             <div class="mb-4">
+                 <label for="suffix" class="block text-gray-600 font-medium">Doctor's Suffix or Titles</label>
+                 <input type="text" id="suffix" name="suffix" placeholder="MD, PhD" class="w-6/12border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300"/>
+             </div>
+             <div class="mb-4">
+                 <label for="email" class="block text-gray-600 font-medium">Email</label>
+                 <input type="email" id="email" name="email" placeholder="john@example.com" class="w-6/12 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+             </div>
+             <div class="mb-4">
+                 <label for="phone" class="block text-gray-600 font-medium">Phone Number</label>
+                 <input type="tel" id="phone" name="phone" placeholder="123-456-7890" class="w-6/12border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-300" required/>
+             </div>
+             <div class="mt-6">
+                 <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
+             </div>
+         </form>
+         )}
+
+
+
+
+
+
       </div>
-    </div>
-    </Layout>
+      <div
+        style={{
+          marginTop: 24,
+        }}
+      >
+        {current < steps.length - 1 && (
+          <Button type="primary" 
+          style={{
+            margin: '0 8px',
+            color:'',
+            background:"purple"
+          }}
+          onClick={() => next()}>
+            Next
+          </Button>
+        )}
+        {current === steps.length - 1 && (
+          <Button type="primary" 
+          style={{
+            margin: '0 8px',
+            color:'',
+            background:"purple"
+          }}  onClick={() => message.success('Processing complete')}>
+            Done
+          </Button>
+        )}
+        {current > 0 && (
+          <Button
+            
+            style={{
+              margin: '0 8px',
+              color:'white',
+              background:"purple"
+            }}
+            onClick={() => prev()}
+          >
+            Previous
+          </Button>
+        )}
+      </div>
+      </div>
+      </Layout>
+    </>
   );
 };
-
 export default Doctorform;
